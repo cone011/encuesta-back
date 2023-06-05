@@ -1,6 +1,4 @@
 const Poll = require("../models/poll");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const mongodb = require("mongodb");
 const ObjectId = mongodb.ObjectId;
 const { errorHandler } = require("../utils/errorHandler");
