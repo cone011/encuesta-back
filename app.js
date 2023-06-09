@@ -14,6 +14,7 @@ const MONGODB_URL = process.env.MONGO_URL;
 const PORT = process.env.PORT || 5050;
 
 const user = require("./routes/users");
+const poll = require("./routes/poll");
 
 const accessLogStream = fs.createWriteStream(
   path.join(__dirname, "access.log"),
@@ -33,6 +34,7 @@ app.use((error, req, res, next) => {
 });
 
 app.use("/api", user);
+app.use("/api", poll);
 
 mongoose
   .connect(MONGODB_URL)

@@ -64,13 +64,37 @@ router.post(
       .trim()
       .custom((value, { req }) => {
         if (value !== req.body.password) {
-          throw new Error("The password do not match");
+          throw new Error("The password has to match");
         }
+        return true;
       }),
     body("fullName", "Please enter a name").trim().isLength({ min: 5 }),
   ],
   user.signUp
 );
+
+router.put("/reset-password/:userId", isAuth, [
+  check("userId")
+    .trim()
+    .custom(async (value, { req }) => {
+      const userItem = await User.findById(value);
+      if (!userItem) {
+        throw new Error("This user is no longer avaible");
+      }
+      return true;
+    }),
+  body("newPassword", "Please enter your new password")
+    .trim()
+    .isLength({ min: 5 }),
+  body("confirmNewPasword")
+    .trim()
+    .custom((value, { req }) => {
+      if ((value = req.body.newPassword)) {
+        throw new Error("The password must be the same");
+      }
+      return true;
+    }),
+]);
 
 router.delete(
   "/user/:userId",

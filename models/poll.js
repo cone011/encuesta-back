@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const pollSchema = new Schema(
   {
     name: { type: String, require: true },
-    description: { type: string, require: false },
+    description: { type: String, require: false },
     options: [{ type: Schema.Types.ObjectId, ref: "options", require: true }],
     creator: {
       type: Schema.Types.ObjectId,

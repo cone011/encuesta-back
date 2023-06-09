@@ -94,6 +94,23 @@ exports.signUp = async (req, res, next) => {
   }
 };
 
+exports.resetPassword = async (req, res, next) => {
+  try {
+    const errors = validationResult(req);
+    validationParams(res, errors);
+    const userId = req.params.userId;
+    const newPassword = req.body.newPassword;
+    const hashNewPass = await bcrypt.hash(newPassword, 12);
+    await User.updateOne(
+      { _id: ObjectId(userId) },
+      { $set: { password: hashNewPass } }
+    );
+    res.status(201).json({ message: "OK", userId: userId });
+  } catch (err) {
+    errorHandler(err, next);
+  }
+};
+
 exports.deleteUser = async (req, res, next) => {
   try {
     const errors = validationResult(req);
