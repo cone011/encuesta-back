@@ -30,7 +30,9 @@ exports.getPollById = async (req, res, next) => {
     const errors = validationResult(req);
     validationParams(res, errors);
     const pollId = req.params.pollId;
-    const pollItem = await Poll.findOne({ _id: new ObjectId(pollId) });
+    const pollItem = await Poll.findOne({ _id: new ObjectId(pollId) }).select(
+      "_id name description"
+    );
     //const itemPoll = await Poll.findById(pollId)
     res.status(200).json({ message: "OK", poll: pollItem });
   } catch (err) {

@@ -11,14 +11,14 @@ exports.getAllQuestions = async (req, res, next) => {
     validationParams(res, errors);
     const perPage = req.query.perPage;
     const currentPage = req.query.currentPage || 1;
-    const totalQuestions = await Options.find().count();
+    const totalOptions = await Options.find().count();
     const options = await Options.find()
       .sort({ createdAt: -1 })
       .skip((currentPage - 1) * perPage)
       .limit(perPage);
     res.status(200).json({
       message: "OK",
-      totalOption: totalOption,
+      totalOption: totalOptions,
       options: options,
     });
   } catch (err) {
